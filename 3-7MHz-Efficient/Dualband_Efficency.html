@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Efficiency-Optimised NVIS Fan Dipole &mdash; 80 m + 40 m</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green-700: #1B5E20;
+  --green-600: #2E7D32;
+  --green-500: #43A047;
+  --mint-100: #E8F5E9;
+  --mint-200: #C8E6C9;
+  --mint-300: #A5D6A7;
+  --gold: #D4A017;
+  --blue: #2E86C1;
+  --card-bg: rgba(255,255,255,0.84);
+  --card-border: rgba(155,200,160,0.45);
+  --text-primary: #0A1A0A;
+  --text-secondary: #2C5B2C;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: linear-gradient(160deg, #F5FFF5 0%, #E8F5E9 20%, #C8E6C9 40%, #E8F5E9 60%, #F1F8E9 80%, #F9FBF2 100%);
+  color: var(--text-primary);
+  padding: 20px;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background:
+    radial-gradient(1.5px 1.5px at 15% 25%, rgba(27,94,32,0.10) 50%, transparent 50%),
+    radial-gradient(1px 1px at 45% 15%, rgba(46,125,50,0.06) 50%, transparent 50%),
+    radial-gradient(2px 2px at 75% 35%, rgba(27,94,32,0.10) 50%, transparent 50%),
+    radial-gradient(1px 1px at 25% 65%, rgba(46,125,50,0.06) 50%, transparent 50%),
+    radial-gradient(1.5px 1.5px at 85% 75%, rgba(27,94,32,0.10) 50%, transparent 50%),
+    radial-gradient(1px 1px at 55% 85%, rgba(46,125,50,0.06) 50%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+  animation: particleDrift 25s ease-in-out infinite alternate;
+}
+
+@keyframes particleDrift {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-8px, 5px); }
+  50% { transform: translate(5px, -8px); }
+  75% { transform: translate(-3px, -5px); }
+  100% { transform: translate(8px, 3px); }
+}
+
+.container { max-width: 1100px; margin: 0 auto; position: relative; z-index: 1; }
+
+.header {
+  background: linear-gradient(135deg, #1B5E20 0%, #2E7D32 30%, #388E3C 60%, #43A047 100%);
+  border-radius: 20px;
+  padding: 28px 36px 24px;
+  margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(27,94,32,0.3);
+}
+
+.header::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background:
+    radial-gradient(ellipse 600px 200px at 20% 50%, rgba(165,214,167,0.08), transparent),
+    radial-gradient(ellipse 400px 300px at 80% 30%, rgba(67,160,71,0.06), transparent);
+  pointer-events: none;
+}
+
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--gold), #FFE082, var(--gold), transparent);
+}
+
+.header .eyebrow {
+  font-size: 0.72rem; font-weight: 600; color: var(--mint-300);
+  letter-spacing: 3.5px; text-transform: uppercase; margin-bottom: 8px; position: relative;
+}
+
+.header h1 {
+  font-size: 2.2rem; font-weight: 900; color: #FFFFFF;
+  line-height: 1.15; margin-bottom: 8px; position: relative;
+}
+
+.header h1 em {
+  font-style: normal;
+  background: linear-gradient(135deg, var(--mint-300), var(--mint-200), #F1F8E9, var(--mint-200));
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+.header .subtitle {
+  font-size: 0.82rem; color: #A5D6A7; font-weight: 400; margin-bottom: 12px; position: relative;
+}
+
+.header .band-tags { display: flex; flex-wrap: wrap; gap: 8px; position: relative; }
+
+.band-tag {
+  display: inline-block; padding: 5px 16px; border-radius: 20px;
+  font-size: 0.72rem; font-weight: 700; border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(4px);
+}
+
+.band-tag.b80 { background: rgba(46,134,193,0.25); color: #AED6F1; }
+.band-tag.b40 { background: rgba(212,160,23,0.25); color: #F9E79F; }
+.band-tag.gen { background: rgba(255,255,255,0.12); color: var(--mint-200); }
+
+.card {
+  background: var(--card-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--card-border); border-radius: 16px; padding: 20px;
+  box-shadow: 0 4px 20px rgba(27,94,32,0.06); transition: transform 0.2s;
+}
+.card:hover { transform: translateY(-1px); }
+
+.card h2 {
+  font-size: 0.95rem; font-weight: 800; color: var(--green-700);
+  margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
+}
+
+.card h2 .icon {
+  width: 28px; height: 28px; border-radius: 8px;
+  background: linear-gradient(135deg, var(--green-700), var(--green-600));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem; flex-shrink: 0;
+}
+
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+.grid.quad { grid-template-columns: 1fr 1fr 1fr 1fr; }
+.full-width { margin-bottom: 14px; }
+
+.section-label { margin-bottom: 10px; margin-top: 4px; }
+.section-label span {
+  display: inline-block; padding: 4px 16px; border-radius: 20px;
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  background: linear-gradient(135deg, var(--green-700), var(--green-600));
+  color: white; box-shadow: 0 2px 8px rgba(27,94,32,0.25);
+}
+
+.stat-card {
+  background: var(--card-bg); backdrop-filter: blur(16px); border: 1px solid var(--card-border);
+  border-radius: 14px; padding: 16px; position: relative; overflow: hidden;
+  box-shadow: 0 4px 16px rgba(27,94,32,0.05);
+}
+
+.stat-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3.5px;
+  background: linear-gradient(90deg, var(--green-500), var(--green-700), var(--green-600));
+}
+
+.stat-card.blue-top::before { background: linear-gradient(90deg, #2E86C1, #1A5276); }
+.stat-card.gold-top::before { background: linear-gradient(90deg, #D4A017, #7D6608); }
+
+.big-stat .number {
+  font-size: 2rem; font-weight: 900;
+  background: linear-gradient(135deg, var(--green-700), var(--green-600));
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  line-height: 1.1;
+}
+
+.big-stat .unit { font-size: 0.7rem; font-weight: 600; color: var(--text-secondary); margin-top: 2px; }
+.big-stat .label { font-size: 0.68rem; color: #40A040; font-weight: 500; margin-top: 4px; }
+
+.perf-table { width: 100%; border-collapse: collapse; font-size: 0.72rem; }
+.perf-table thead th {
+  background: linear-gradient(135deg, var(--green-700), var(--green-600));
+  color: white; padding: 8px 6px; font-weight: 700; text-align: center; font-size: 0.65rem; letter-spacing: 0.3px;
+}
+.perf-table thead th:first-child { border-radius: 8px 0 0 0; }
+.perf-table thead th:last-child { border-radius: 0 8px 0 0; }
+.perf-table tbody td {
+  padding: 6px; text-align: center; border-bottom: 1px solid rgba(155,200,160,0.3);
+  font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; font-weight: 500;
+}
+.perf-table tbody tr:hover { background: rgba(165,214,167,0.12); }
+.perf-table tbody tr.band-80 { background: rgba(46,134,193,0.06); }
+.perf-table tbody tr.band-40 { background: rgba(212,160,23,0.06); }
+
+.spec-list { list-style: none; font-size: 0.72rem; }
+.spec-list li { padding: 5px 0; border-bottom: 1px solid rgba(155,200,160,0.25); display: flex; justify-content: space-between; gap: 8px; }
+.spec-list li:last-child { border-bottom: none; }
+.spec-list .spec-key { color: var(--text-secondary); font-weight: 500; }
+.spec-list .spec-val { font-family: 'JetBrains Mono', monospace; font-weight: 600; color: var(--green-700); text-align: right; }
+
+.formula-box { background: rgba(232,245,233,0.5); border: 1px solid rgba(155,200,160,0.4); border-radius: 10px; padding: 10px 14px; margin-top: 8px; font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--green-700); line-height: 1.7; }
+.formula-box .formula-title { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 0.7rem; color: var(--green-600); margin-bottom: 4px; }
+
+.comp-table { width: 100%; border-collapse: collapse; font-size: 0.72rem; }
+.comp-table thead th { background: linear-gradient(135deg, var(--green-700), var(--green-600)); color: white; padding: 8px 10px; font-weight: 700; text-align: center; font-size: 0.65rem; }
+.comp-table thead th:first-child { border-radius: 8px 0 0 0; text-align: left; }
+.comp-table thead th:last-child { border-radius: 0 8px 0 0; }
+.comp-table tbody td { padding: 6px 10px; text-align: center; border-bottom: 1px solid rgba(155,200,160,0.3); font-size: 0.7rem; }
+.comp-table tbody td:first-child { text-align: left; font-weight: 600; color: var(--green-700); }
+.comp-table .highlight-col { background: rgba(165,214,167,0.12); font-weight: 700; color: var(--green-700); }
+
+.mat-list { list-style: none; font-size: 0.72rem; }
+.mat-list li { padding: 4px 0; padding-left: 14px; position: relative; color: var(--text-secondary); line-height: 1.5; }
+.mat-list li::before { content: ''; position: absolute; left: 0; top: 10px; width: 6px; height: 6px; border-radius: 50%; background: linear-gradient(135deg, var(--green-700), var(--green-600)); }
+
+.explainer { background: rgba(232,245,233,0.4); border: 1px solid rgba(155,200,160,0.3); border-radius: 10px; padding: 12px; margin-top: 10px; }
+.explainer h4 { font-size: 0.72rem; font-weight: 800; color: var(--green-600); margin-bottom: 4px; }
+.explainer p { font-size: 0.68rem; color: var(--text-secondary); line-height: 1.55; }
+
+.eff-bar-group { margin-bottom: 8px; }
+.eff-bar-label { font-size: 0.7rem; font-weight: 600; color: var(--text-primary); margin-bottom: 3px; display: flex; justify-content: space-between; }
+.eff-bar-bg { height: 26px; background: rgba(232,245,233,0.5); border-radius: 13px; overflow: hidden; border: 1px solid rgba(155,200,160,0.3); }
+.eff-bar-fill { height: 100%; border-radius: 13px; display: flex; align-items: center; padding-left: 10px; font-size: 0.65rem; font-weight: 700; color: white; transition: width 1.5s cubic-bezier(0.4,0,0.2,1); min-width: 40px; }
+.eff-bar-fill.b80 { background: linear-gradient(90deg, #2E86C1, #1A5276); }
+.eff-bar-fill.b40 { background: linear-gradient(90deg, #D4A017, #7D6608); }
+
+.svg-container { display: flex; justify-content: center; align-items: center; padding: 8px 0; }
+
+.warning { background: linear-gradient(135deg, #FFF8E1, #FFECB3); border: 1.5px solid #FFB300; border-radius: 12px; padding: 14px 20px; margin-bottom: 14px; display: flex; align-items: flex-start; gap: 12px; }
+.warning .warn-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 1px; }
+.warning .warn-text { font-size: 0.75rem; color: #BF360C; font-weight: 600; line-height: 1.5; }
+.warning .warn-text strong { color: #8B1A00; }
+
+.footer { text-align: center; padding: 20px; margin-top: 8px; font-size: 0.65rem; color: #40A040; line-height: 1.7; }
+.footer strong { color: var(--green-700); }
+.footer a { color: var(--green-600); text-decoration: none; font-weight: 600; }
+.footer a:hover { text-decoration: underline; }
+
+@media (max-width: 900px) { .grid, .grid.quad { grid-template-columns: 1fr; } }
+
+@media print {
+  html { zoom: 0.55; }
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  body { padding: 8px; background: #F9FBF2 !important; }
+  body::before { display: none !important; }
+  .card { background: #FFFFFF !important; backdrop-filter: none !important; break-inside: avoid; box-shadow: none; border: 1.5px solid #A5D6A7; }
+  .header { padding: 18px 24px 16px; break-inside: avoid; }
+  .header::before { display: none; }
+  @page { margin: 6mm; size: A4 portrait; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="eyebrow">Amateur Radio &bull; HF Antenna Engineering &bull; Maximum NVIS Efficiency</div>
+    <h1>Efficiency-Optimised<br><em>NVIS Fan Dipole</em></h1>
+    <div class="subtitle">Full-Size Inverted-V &bull; 12 m Apex &bull; #10 AWG Hard-Drawn Copper &bull; LMR-400 Feed &bull; Triple-Core Balun</div>
+    <div class="band-tags">
+      <span class="band-tag b80">80 m &mdash; 3.500&ndash;3.800 MHz &mdash; NVIS</span>
+      <span class="band-tag b40">40 m &mdash; 7.000&ndash;7.300 MHz &mdash; NVIS</span>
+      <span class="band-tag gen">97&ndash;99% Radiation Efficiency</span>
+    </div>
+  </div>
+
+  <!-- STAT CARDS -->
+  <div class="grid quad">
+    <div class="stat-card blue-top">
+      <div class="big-stat">
+        <div class="number">12 m</div>
+        <div class="unit">Apex Height</div>
+        <div class="label">Telescoping mast</div>
+      </div>
+    </div>
+    <div class="stat-card gold-top">
+      <div class="big-stat">
+        <div class="number">97&ndash;99%</div>
+        <div class="unit">Radiation Efficiency</div>
+        <div class="label">Minimum-loss design</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="big-stat">
+        <div class="number">+7.8 dBi</div>
+        <div class="unit">Peak Gain (40m)</div>
+        <div class="label">NVIS zenith maximum</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="big-stat">
+        <div class="number">$280&ndash;450</div>
+        <div class="unit">Estimated Cost</div>
+        <div class="label">Premium low-loss components</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ANTENNA DIAGRAM -->
+  <div class="section-label"><span>Antenna Configuration</span></div>
+  <div class="card full-width">
+    <h2><span class="icon">&#9978;</span> Inverted-V Fan Dipole &mdash; Side View</h2>
+    <div class="svg-container">
+      <svg viewBox="0 0 800 380" width="100%" xmlns="http://www.w3.org/2000/svg" style="font-family:'Inter',sans-serif;">
+        <defs>
+          <linearGradient id="wireGrad80" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#2E86C1"/>
+            <stop offset="50%" stop-color="#3498DB"/>
+            <stop offset="100%" stop-color="#2E86C1"/>
+          </linearGradient>
+          <linearGradient id="wireGrad40" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#D4A017"/>
+            <stop offset="50%" stop-color="#F1C40F"/>
+            <stop offset="100%" stop-color="#D4A017"/>
+          </linearGradient>
+          <linearGradient id="mastGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#5D6D3F"/>
+            <stop offset="50%" stop-color="#7D9A4E"/>
+            <stop offset="100%" stop-color="#5D6D3F"/>
+          </linearGradient>
+          <marker id="arUp" markerWidth="8" markerHeight="6" refX="4" refY="6" orient="auto">
+            <polygon points="0,6 4,0 8,6" fill="#1B5E20"/>
+          </marker>
+        </defs>
+
+        <!-- Ground -->
+        <rect x="0" y="290" width="800" height="90" fill="#8B7355" opacity="0.12"/>
+        <line x1="0" y1="290" x2="800" y2="290" stroke="#4A3728" stroke-width="2.5"/>
+        <text x="400" y="310" text-anchor="middle" font-size="10" fill="#4A3728" font-weight="600">GROUND LEVEL &mdash; 10&times;10 m mesh + 20 radials &times; 15 m</text>
+
+        <!-- Mast -->
+        <rect x="393" y="50" width="14" height="240" rx="4" fill="url(#mastGrad)" opacity="0.4"/>
+        <text x="380" y="170" text-anchor="end" font-size="9" fill="#5D6D3F" font-weight="700" transform="rotate(-90,380,170)">MAST 12 m</text>
+
+        <!-- 80m elements (wider angle, blue) -->
+        <line x1="400" y1="60" x2="60" y2="215" stroke="url(#wireGrad80)" stroke-width="4" stroke-linecap="round"/>
+        <line x1="400" y1="60" x2="740" y2="215" stroke="url(#wireGrad80)" stroke-width="4" stroke-linecap="round"/>
+
+        <!-- 40m elements (narrower, gold) -->
+        <line x1="400" y1="60" x2="205" y2="145" stroke="url(#wireGrad40)" stroke-width="3.5" stroke-linecap="round"/>
+        <line x1="400" y1="60" x2="595" y2="145" stroke="url(#wireGrad40)" stroke-width="3.5" stroke-linecap="round"/>
+
+        <!-- Element labels -->
+        <text x="190" y="170" text-anchor="middle" font-size="10" fill="#2E86C1" font-weight="700">80m: 20.0 m</text>
+        <text x="610" y="170" text-anchor="middle" font-size="10" fill="#2E86C1" font-weight="700">80m: 20.0 m</text>
+        <text x="280" y="100" text-anchor="middle" font-size="10" fill="#D4A017" font-weight="700">40m: 10.0 m</text>
+        <text x="520" y="100" text-anchor="middle" font-size="10" fill="#D4A017" font-weight="700">40m: 10.0 m</text>
+
+        <!-- End insulators -->
+        <circle cx="60" cy="215" r="5" fill="#C0392B" stroke="#922B21" stroke-width="1.5"/>
+        <circle cx="740" cy="215" r="5" fill="#C0392B" stroke="#922B21" stroke-width="1.5"/>
+        <circle cx="205" cy="145" r="4" fill="#F39C12" stroke="#D68910" stroke-width="1.5"/>
+        <circle cx="595" cy="145" r="4" fill="#F39C12" stroke="#D68910" stroke-width="1.5"/>
+
+        <!-- End heights -->
+        <text x="60" y="240" text-anchor="middle" font-size="8" fill="#4A3728" font-weight="600">8.5 m</text>
+        <text x="740" y="240" text-anchor="middle" font-size="8" fill="#4A3728" font-weight="600">8.5 m</text>
+        <text x="205" y="165" text-anchor="middle" font-size="8" fill="#4A3728" font-weight="600">10.3 m</text>
+        <text x="595" y="165" text-anchor="middle" font-size="8" fill="#4A3728" font-weight="600">10.3 m</text>
+
+        <!-- Balun box -->
+        <rect x="375" y="248" width="50" height="35" rx="6" fill="white" stroke="#1B5E20" stroke-width="2"/>
+        <text x="400" y="263" text-anchor="middle" font-size="9" fill="#1B5E20" font-weight="800">1:1</text>
+        <text x="400" y="275" text-anchor="middle" font-size="7" fill="#2E7D32" font-weight="600">3&times;FT-240</text>
+
+        <!-- Coax -->
+        <line x1="400" y1="283" x2="400" y2="330" stroke="#546E7A" stroke-width="3" stroke-dasharray="6,3"/>
+        <text x="415" y="320" font-size="9" fill="#546E7A" font-weight="600">LMR-400 to station</text>
+
+        <!-- NVIS rays -->
+        <line x1="400" y1="60" x2="370" y2="10" stroke="#2E86C1" stroke-width="1.5" opacity="0.4" marker-end="url(#arUp)"/>
+        <line x1="400" y1="60" x2="400" y2="8" stroke="#D4A017" stroke-width="1.5" opacity="0.4" marker-end="url(#arUp)"/>
+        <line x1="400" y1="60" x2="430" y2="10" stroke="#D4A017" stroke-width="1.5" opacity="0.4" marker-end="url(#arUp)"/>
+
+        <!-- Span dimensions -->
+        <line x1="60" y1="260" x2="740" y2="260" stroke="#1A0A0A" stroke-width="0.8" marker-start="url(#arUp)" marker-end="url(#arUp)"/>
+        <rect x="340" y="252" width="120" height="16" rx="4" fill="white" stroke="#A5D6A7" stroke-width="0.5"/>
+        <text x="400" y="264" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="10" fill="#1B5E20" font-weight="700">39.4 m (80m span)</text>
+
+        <!-- Angle label -->
+        <text x="400" y="42" text-anchor="middle" font-size="11" fill="#1B5E20" font-weight="800">APEX: 12 m &bull; 160&deg; included angle</text>
+
+        <!-- Legend -->
+        <rect x="15" y="14" width="180" height="60" rx="8" fill="white" fill-opacity="0.85" stroke="#A5D6A7" stroke-width="1"/>
+        <text x="30" y="30" font-size="9" fill="#1B5E20" font-weight="800">WIRE ELEMENTS</text>
+        <line x1="30" y1="42" x2="55" y2="42" stroke="#2E86C1" stroke-width="3"/>
+        <text x="63" y="46" font-size="8.5" fill="#2E86C1" font-weight="600">80m: #10 AWG HC Cu</text>
+        <line x1="30" y1="58" x2="55" y2="58" stroke="#D4A017" stroke-width="3"/>
+        <text x="63" y="62" font-size="8.5" fill="#D4A017" font-weight="600">40m: #10 AWG HC Cu</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- EFFICIENCY BARS + DESIGN PHILOSOPHY -->
+  <div class="grid">
+    <div class="card">
+      <h2><span class="icon">&#9889;</span> Band Efficiency</h2>
+      <div class="eff-bar-group">
+        <div class="eff-bar-label"><span>80 m (3.65 MHz)</span><span>97%</span></div>
+        <div class="eff-bar-bg"><div class="eff-bar-fill b80" style="width:97%;">97%</div></div>
+      </div>
+      <div class="eff-bar-group">
+        <div class="eff-bar-label"><span>40 m (7.15 MHz)</span><span>99%</span></div>
+        <div class="eff-bar-bg"><div class="eff-bar-fill b40" style="width:99%;">99%</div></div>
+      </div>
+      <div class="explainer">
+        <h4>How is 97&ndash;99% achieved?</h4>
+        <p>Every component is selected for minimum loss: <strong>#10 AWG hard-drawn copper</strong> wire (37% more cross-section than #12), <strong>LMR-400</strong> coax (50% lower loss than RG-213), a <strong>triple-core FT-240-43</strong> balun, and a <strong>10&times;10 m ground mesh</strong> with 20 radials. Total system loss is only <strong>0.31&ndash;0.42 dB</strong>.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><span class="icon">&#128200;</span> Feed Loss Budget</h2>
+      <div class="formula-box">
+        <div class="formula-title">Component Losses</div>
+        Wire ohmic (#10 AWG HC Cu): 0.02&ndash;0.05 dB<br>
+        Balun (3&times;FT-240-43): &lt; 0.05 dB<br>
+        LMR-400 feed (30 m): 0.21&ndash;0.27 dB<br>
+        Connectors (2&times; N-type): 0.02 dB<br>
+        Ground system: 0.01&ndash;0.03 dB
+      </div>
+      <div class="formula-box" style="margin-top:8px;">
+        <div class="formula-title">Total System Loss</div>
+        <strong>0.31&ndash;0.42 dB = 97&ndash;99% efficiency</strong>
+      </div>
+      <div class="explainer">
+        <h4>Array Factor at Zenith</h4>
+        <p>80m (h/&lambda; = 0.146): AF = 1.59 &rarr; +7.0 dBi<br>40m (h/&lambda; = 0.286): AF = 1.95 &rarr; +7.8 dBi<br>Near-optimal NVIS gain on both bands.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3D RADIATION PATTERNS -->
+  <div class="section-label"><span>3D Radiation Patterns</span></div>
+  <div class="grid">
+    <div class="card">
+      <h2><span class="icon" style="background:linear-gradient(135deg,#2E86C1,#1A5276);">&#127759;</span> 80 m &mdash; NVIS</h2>
+      <div class="svg-container">
+        <svg id="pat3d80" viewBox="0 0 360 300" width="100%" style="max-width:360px;"></svg>
+      </div>
+      <div style="font-size:0.65rem;color:#2E86C1;text-align:center;font-weight:600;">+7.0 dBi at zenith &bull; 3 dB BW &asymp; 60&deg; &bull; h/&lambda; = 0.146</div>
+    </div>
+    <div class="card">
+      <h2><span class="icon" style="background:linear-gradient(135deg,#D4A017,#7D6608);">&#127760;</span> 40 m &mdash; NVIS</h2>
+      <div class="svg-container">
+        <svg id="pat3d40" viewBox="0 0 360 300" width="100%" style="max-width:360px;"></svg>
+      </div>
+      <div style="font-size:0.65rem;color:#D4A017;text-align:center;font-weight:600;">+7.8 dBi at zenith &bull; 3 dB BW &asymp; 45&deg; &bull; h/&lambda; = 0.286</div>
+    </div>
+  </div>
+
+  <!-- PERFORMANCE TABLE -->
+  <div class="section-label"><span>Performance Data</span></div>
+  <div class="card full-width">
+    <h2><span class="icon">&#128202;</span> Frequency-by-Frequency Performance</h2>
+    <div style="overflow-x:auto;">
+      <table class="perf-table">
+        <thead>
+          <tr><th>Freq (MHz)</th><th>Band</th><th>Gain (dBi)</th><th>Eff. (%)</th><th>VSWR</th><th>BW (kHz)</th><th>h/&lambda;</th></tr>
+        </thead>
+        <tbody>
+          <tr class="band-80"><td>3.500</td><td style="color:#2E86C1;font-weight:700;">80 m</td><td>+6.8</td><td>97</td><td>1.2:1</td><td>170</td><td>0.140</td></tr>
+          <tr class="band-80"><td>3.650</td><td style="color:#2E86C1;font-weight:700;">80 m</td><td>+7.0</td><td>97</td><td>1.1:1</td><td>180</td><td>0.146</td></tr>
+          <tr class="band-80"><td>3.800</td><td style="color:#2E86C1;font-weight:700;">80 m</td><td>+7.2</td><td>98</td><td>1.3:1</td><td>180</td><td>0.152</td></tr>
+          <tr class="band-40"><td>7.000</td><td style="color:#D4A017;font-weight:700;">40 m</td><td>+7.6</td><td>98</td><td>1.3:1</td><td>230</td><td>0.280</td></tr>
+          <tr class="band-40"><td>7.150</td><td style="color:#D4A017;font-weight:700;">40 m</td><td>+7.8</td><td>99</td><td>1.1:1</td><td>240</td><td>0.286</td></tr>
+          <tr class="band-40"><td>7.300</td><td style="color:#D4A017;font-weight:700;">40 m</td><td>+7.9</td><td>99</td><td>1.4:1</td><td>240</td><td>0.292</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- BALUN DETAIL + SPECS -->
+  <div class="section-label"><span>Balun &amp; Specifications</span></div>
+  <div class="grid">
+    <div class="card">
+      <h2><span class="icon">&#128268;</span> Triple-Core 1:1 Current Balun</h2>
+      <div class="svg-container">
+        <svg viewBox="0 0 400 320" width="100%" xmlns="http://www.w3.org/2000/svg" style="font-family:'Inter',sans-serif;">
+          <!-- Enclosure -->
+          <rect x="80" y="30" width="240" height="240" rx="14" fill="#F5FFF5" stroke="#1B5E20" stroke-width="2"/>
+          <text x="200" y="22" text-anchor="middle" font-size="11" fill="#1B5E20" font-weight="800" letter-spacing="1">WEATHERPROOF ENCLOSURE</text>
+
+          <!-- Stacked toroids -->
+          <ellipse cx="200" cy="120" rx="65" ry="30" fill="none" stroke="#546E7A" stroke-width="5.5"/>
+          <ellipse cx="200" cy="143" rx="65" ry="30" fill="none" stroke="#546E7A" stroke-width="5.5"/>
+          <ellipse cx="200" cy="166" rx="65" ry="30" fill="none" stroke="#546E7A" stroke-width="5.5"/>
+          <ellipse cx="200" cy="120" rx="28" ry="13" fill="#F5FFF5" stroke="#78909C" stroke-width="2"/>
+          <ellipse cx="200" cy="143" rx="28" ry="13" fill="#F5FFF5" stroke="#78909C" stroke-width="2"/>
+          <ellipse cx="200" cy="166" rx="28" ry="13" fill="#F5FFF5" stroke="#78909C" stroke-width="2"/>
+          <text x="200" y="200" text-anchor="middle" font-size="9" fill="#37474F" font-weight="700">3&times; FT-240-43</text>
+          <text x="200" y="212" text-anchor="middle" font-size="8" fill="#546E7A">(61 mm OD, stacked)</text>
+
+          <!-- Winding label -->
+          <path d="M 145 100 Q 120 90, 110 80" fill="none" stroke="#1B5E20" stroke-width="2"/>
+          <text x="90" y="72" font-size="9" fill="#1B5E20" font-weight="700">12 bifilar</text>
+          <text x="90" y="84" font-size="8" fill="#2E7D32">turns</text>
+
+          <!-- Type label -->
+          <path d="M 255 100 Q 280 90, 290 80" fill="none" stroke="#2E86C1" stroke-width="2"/>
+          <text x="275" y="72" font-size="9" fill="#2E86C1" font-weight="700">1:1 current</text>
+          <text x="275" y="84" font-size="8" fill="#1A5276">balun</text>
+
+          <!-- SO-239 -->
+          <rect x="170" y="232" width="60" height="20" rx="5" fill="#78909C" stroke="#546E7A" stroke-width="1.5"/>
+          <circle cx="200" cy="242" r="5" fill="#455A64" stroke="#263238" stroke-width="1"/>
+          <text x="200" y="264" text-anchor="middle" font-size="9" fill="#1B5E20" font-weight="700">N-type</text>
+
+          <!-- Antenna terminals -->
+          <circle cx="150" cy="50" r="7" fill="none" stroke="#2E86C1" stroke-width="2.5"/>
+          <text x="150" y="42" text-anchor="middle" font-size="7" fill="#2E86C1" font-weight="700">80m</text>
+          <circle cx="250" cy="50" r="7" fill="none" stroke="#D4A017" stroke-width="2.5"/>
+          <text x="250" y="42" text-anchor="middle" font-size="7" fill="#D4A017" font-weight="700">40m</text>
+
+          <!-- Specs box -->
+          <rect x="90" y="285" width="220" height="28" rx="6" fill="#1B5E20"/>
+          <text x="200" y="304" text-anchor="middle" font-size="10" fill="white" font-weight="800">CM Impedance &gt; 5000 &Omega; &bull; 1.5 kW PEP</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><span class="icon">&#128295;</span> Key Specifications</h2>
+      <ul class="spec-list">
+        <li><span class="spec-key">Antenna type</span><span class="spec-val">Inverted-V Fan Dipole</span></li>
+        <li><span class="spec-key">Bands</span><span class="spec-val" style="color:#1B5E20;">80m + 40m</span></li>
+        <li><span class="spec-key">80m element</span><span class="spec-val">2 &times; 20.0 m = 40.0 m</span></li>
+        <li><span class="spec-key">40m element</span><span class="spec-val">2 &times; 10.0 m = 20.0 m</span></li>
+        <li><span class="spec-key">Wire gauge</span><span class="spec-val">#10 AWG hard-drawn Cu</span></li>
+        <li><span class="spec-key">Apex height</span><span class="spec-val">12 m</span></li>
+        <li><span class="spec-key">Included angle</span><span class="spec-val">160&deg;</span></li>
+        <li><span class="spec-key">80m span</span><span class="spec-val">39.4 m</span></li>
+        <li><span class="spec-key">40m span</span><span class="spec-val">19.7 m</span></li>
+        <li><span class="spec-key">Feed cable</span><span class="spec-val">LMR-400, 50 &Omega;</span></li>
+        <li><span class="spec-key">Balun</span><span class="spec-val">3&times;FT-240-43 (1:1)</span></li>
+        <li><span class="spec-key">Power</span><span class="spec-val">1.5 kW PEP</span></li>
+        <li><span class="spec-key">Ground system</span><span class="spec-val">10&times;10 m + 20&times;15 m</span></li>
+        <li><span class="spec-key">Footprint</span><span class="spec-val">39 &times; 12 m</span></li>
+        <li><span class="spec-key">Cost</span><span class="spec-val" style="color:#229954;">$280&ndash;$450</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- COMPARISON TABLE -->
+  <div class="section-label"><span>Comparison with Other Designs</span></div>
+  <div class="card full-width">
+    <h2><span class="icon">&#9878;</span> Design Comparison Matrix</h2>
+    <div style="overflow-x:auto;">
+      <table class="comp-table">
+        <thead>
+          <tr><th>Parameter</th><th class="highlight-col">Efficient (this)</th><th>EFHW Tri-Band</th><th>Small-Size Fan Dipole</th><th>Balanced Mag Loop</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Bands</td><td class="highlight-col">80m + 40m</td><td>80m + 40m + 20m</td><td>80m + 40m</td><td>80m + 40m</td></tr>
+          <tr><td>80m Gain (dBi)</td><td class="highlight-col" style="color:#1B5E20;font-weight:800;">+7.0</td><td>+2.8</td><td>+2.5</td><td>&minus;7</td></tr>
+          <tr><td>40m Gain (dBi)</td><td class="highlight-col" style="color:#1B5E20;font-weight:800;">+7.8</td><td>+5.0</td><td>+5.5</td><td>+1</td></tr>
+          <tr><td>Efficiency</td><td class="highlight-col">97&ndash;99%</td><td>85&ndash;96%</td><td>72&ndash;86%</td><td>8&ndash;55%</td></tr>
+          <tr><td>Footprint</td><td class="highlight-col">39 &times; 12 m</td><td>29 &times; 10 m</td><td>19 &times; 8 m</td><td>2 m diameter</td></tr>
+          <tr><td>No Tuner Needed</td><td class="highlight-col">Yes</td><td>Yes</td><td>No (80m)</td><td>No</td></tr>
+          <tr><td>Power</td><td class="highlight-col">1.5 kW PEP</td><td>200&ndash;300 W</td><td>500 W</td><td>25 W</td></tr>
+          <tr><td>Coverage</td><td class="highlight-col">0&ndash;500 km</td><td>0&ndash;500 km</td><td>0&ndash;250 km</td><td>0&ndash;100 km</td></tr>
+          <tr><td>Cost</td><td class="highlight-col">$280&ndash;$450</td><td>$95&ndash;$185</td><td>$80&ndash;$150</td><td>$313&ndash;$712</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- BOM + CONSTRUCTION -->
+  <div class="section-label"><span>Bill of Materials &amp; Construction</span></div>
+  <div class="grid">
+    <div class="card">
+      <h2><span class="icon">&#128230;</span> Bill of Materials</h2>
+      <ul class="mat-list">
+        <li><strong>#10 AWG hard-drawn Cu wire, 80 m:</strong> $45&ndash;$65</li>
+        <li><strong>LMR-400 coaxial cable, 30 m:</strong> $75&ndash;$120</li>
+        <li><strong>FT-240-43 ferrite cores &times;3:</strong> $30&ndash;$45</li>
+        <li><strong>Galvanised ground mesh (10&times;10 m):</strong> $40&ndash;$60</li>
+        <li><strong>#14 AWG bare Cu radial wire, 300 m:</strong> $35&ndash;$50</li>
+        <li><strong>Aluminium/fibreglass mast (12 m):</strong> $25&ndash;$50</li>
+        <li><strong>End support poles or trees:</strong> $0&ndash;$20</li>
+        <li><strong>Insulators, connectors, hardware:</strong> $15&ndash;$25</li>
+        <li><strong>N-type / PL-259 connectors &times;4:</strong> $10&ndash;$15</li>
+        <li style="font-weight:800;color:var(--green-700);border-top:2px solid var(--green-600);padding-top:8px;">TOTAL: $280&ndash;$450</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2><span class="icon">&#128736;</span> Construction Steps</h2>
+      <ol style="font-size:0.72rem;color:var(--text-secondary);line-height:1.7;padding-left:18px;">
+        <li><strong>Cut wire:</strong> 2&times;20.0 m (#10 AWG HC Cu, 80m) + 2&times;10.0 m (40m), strip 3 cm at feed ends</li>
+        <li><strong>Wind balun:</strong> Stack 3&times;FT-240-43, 12 bifilar turns #14 AWG PTFE, mount on SO-239/N-type</li>
+        <li><strong>Feedpoint:</strong> Solder 80m + 40m elements to balun terminals, 5 cm spreader between bands</li>
+        <li><strong>Ground system:</strong> Lay 10&times;10 m mesh, bond 20 radials at 18&deg; &times; 15 m each, connect to coax shield</li>
+        <li><strong>Erect mast:</strong> Feedpoint at 12 m apex, elements at 160&deg; angle, guy at 4 m and 8 m</li>
+        <li><strong>Tune:</strong> Sweep 3.4&ndash;3.9 MHz and 6.9&ndash;7.4 MHz; trim &plusmn;1 cm per element tip</li>
+      </ol>
+      <div class="formula-box" style="margin-top:12px;">
+        <div class="formula-title">Element Length Formula</div>
+        L (m) = 143 / f_MHz &times; 0.95 (velocity factor)<br>
+        80m: 143 / 3.65 = 39.2 m &rarr; 2 &times; 20.0 m<br>
+        40m: 143 / 7.15 = 20.0 m &rarr; 2 &times; 10.0 m
+      </div>
+    </div>
+  </div>
+
+  <!-- WARNING -->
+  <div class="warning">
+    <div class="warn-icon">&#9888;</div>
+    <div class="warn-text">
+      <strong>SAFETY:</strong> At <strong>1.5 kW PEP</strong>, maintain minimum <strong>10 m distance</strong> from antenna during transmit. Maintain <strong>24 m clearance</strong> (2&times; mast height) from overhead power lines. Install a <strong>lightning arrestor</strong> at station entry. Guy the mast at 1/3 and 2/3 height. Use two or more people when raising the mast.
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <strong>Efficiency-Optimised NVIS Fan Dipole &mdash; 80 m + 40 m</strong><br>
+    Full-size inverted-V &bull; 12 m apex &bull; #10 AWG hard-drawn Cu &bull; LMR-400 &bull; 3&times;FT-240-43 &bull; 97&ndash;99% efficiency<br>
+    No tuner required &bull; 0&ndash;500 km NVIS coverage &bull; $280&ndash;$450<br>
+    <a href="https://github.com/Asteriskman2020/NVIS-Antennas" target="_blank">github.com/Asteriskman2020/NVIS-Antennas</a>
+  </div>
+
+</div>
+
+<script>
+function render3dPattern(svgId, patternFn, opts) {
+  var svg = document.getElementById(svgId);
+  if (!svg) return;
+  var o = Object.assign({
+    cx: 180, cy: 170, scale: 110,
+    viewElev: 28, viewAzim: -35,
+    nPhi: 20, nTheta: 35,
+    meridianColor: '#1B5E20', parallelColor: '#2E7D32',
+    showGround: true, showZenith: true,
+    groundLabel: 'GROUND', zenithLabel: 'ZENITH'
+  }, opts || {});
+
+  var vE = o.viewElev * Math.PI / 180;
+  var vA = o.viewAzim * Math.PI / 180;
+
+  function proj(x, y, z) {
+    var x1 = x * Math.cos(vA) - y * Math.sin(vA);
+    var y1 = x * Math.sin(vA) + y * Math.cos(vA);
+    var z2 = y1 * Math.sin(vE) + z * Math.cos(vE);
+    var y2 = y1 * Math.cos(vE) - z * Math.sin(vE);
+    return { px: o.cx + o.scale * x1, py: o.cy - o.scale * z2, depth: y2 };
+  }
+  function s2c(theta, phi, r) {
+    return { x: r * Math.sin(theta) * Math.cos(phi), y: r * Math.sin(theta) * Math.sin(phi), z: r * Math.cos(theta) };
+  }
+
+  var html = '';
+
+  if (o.showGround) {
+    var gpts = [];
+    for (var d = 0; d <= 360; d += 4) {
+      var rad = d * Math.PI / 180;
+      var p = proj(1.15 * Math.cos(rad), 1.15 * Math.sin(rad), 0);
+      gpts.push(p.px.toFixed(1) + ',' + p.py.toFixed(1));
+    }
+    html += '<polygon points="' + gpts.join(' ') + '" fill="' + o.meridianColor + '" fill-opacity="0.04" stroke="' + o.meridianColor + '" stroke-width="1" stroke-opacity="0.15"/>';
+    var gl = proj(1.2, 0.8, 0);
+    html += '<text x="' + gl.px + '" y="' + (gl.py + 4) + '" font-family="Inter,sans-serif" font-size="7" fill="' + o.meridianColor + '" font-weight="700">' + o.groundLabel + '</text>';
+  }
+
+  var axLen = 1.3;
+  var az1 = proj(0, 0, 0), az2 = proj(0, 0, axLen);
+  if (o.showZenith) {
+    html += '<line x1="' + az1.px + '" y1="' + az1.py + '" x2="' + az2.px + '" y2="' + az2.py + '" stroke="#78909C" stroke-width="0.8" stroke-dasharray="4,4"/>';
+    html += '<text x="' + (az2.px + 2) + '" y="' + (az2.py - 5) + '" font-family="Inter,sans-serif" font-size="8" fill="' + o.meridianColor + '" font-weight="800">' + o.zenithLabel + '</text>';
+  }
+
+  var segments = [];
+  for (var pi = 0; pi < o.nPhi; pi++) {
+    var phi = (pi / o.nPhi) * 2 * Math.PI;
+    var pts = [], avgD = 0;
+    for (var ti = 0; ti <= o.nTheta; ti++) {
+      var theta = (ti / o.nTheta) * Math.PI / 2;
+      var r = patternFn(theta, phi);
+      var c = s2c(theta, phi, r);
+      var p2 = proj(c.x, c.y, c.z);
+      pts.push(p2); avgD += p2.depth;
+    }
+    segments.push({ pts: pts, depth: avgD / pts.length, type: 'm' });
+  }
+  [15, 30, 45, 60, 75, 85].forEach(function(ed) {
+    var theta = (90 - ed) * Math.PI / 180;
+    var pts = [], avgD = 0;
+    for (var pi2 = 0; pi2 <= 360; pi2 += 4) {
+      var phi2 = pi2 * Math.PI / 180;
+      var r2 = patternFn(theta, phi2);
+      var c2 = s2c(theta, phi2, r2);
+      var p3 = proj(c2.x, c2.y, c2.z);
+      pts.push(p3); avgD += p3.depth;
+    }
+    segments.push({ pts: pts, depth: avgD / pts.length, type: 'p', elev: ed });
+  });
+  segments.sort(function(a, b) { return a.depth - b.depth; });
+
+  segments.forEach(function(seg) {
+    var ptsStr = seg.pts.map(function(pp) { return pp.px.toFixed(1) + ',' + pp.py.toFixed(1); }).join(' ');
+    if (seg.type === 'm') {
+      html += '<polyline points="' + ptsStr + '" fill="none" stroke="' + o.meridianColor + '" stroke-width="0.7" opacity="0.4"/>';
+    } else {
+      var bold = seg.elev >= 45;
+      html += '<polyline points="' + ptsStr + '" fill="none" stroke="' + o.parallelColor + '" stroke-width="' + (bold ? '1.2' : '0.6') + '" opacity="' + (bold ? '0.6' : '0.3') + '"/>';
+    }
+  });
+
+  [0, Math.PI / 2, Math.PI, 3 * Math.PI / 2].forEach(function(phi3) {
+    var pts3 = [];
+    for (var ti3 = 0; ti3 <= 70; ti3++) {
+      var theta3 = (ti3 / 70) * Math.PI / 2;
+      var r3 = patternFn(theta3, phi3);
+      var c3 = s2c(theta3, phi3, r3);
+      var p4 = proj(c3.x, c3.y, c3.z);
+      pts3.push(p4.px.toFixed(1) + ',' + p4.py.toFixed(1));
+    }
+    var origin = proj(0, 0, 0);
+    pts3.push(origin.px.toFixed(1) + ',' + origin.py.toFixed(1));
+    html += '<polyline points="' + pts3.join(' ') + '" fill="none" stroke="' + o.meridianColor + '" stroke-width="2" opacity="0.7" stroke-linejoin="round"/>';
+  });
+
+  svg.innerHTML = html;
+}
+
+// Full-size inverted-V at 12m: strong NVIS patterns
+function pattern80(theta, phi) {
+  var elev = Math.PI / 2 - theta;
+  if (elev < 0) return 0;
+  var k = 2 * Math.PI / 82.1;
+  var h = 12;
+  var halfLen = 20.0;
+  var kL = k * halfLen;
+  var sinT = Math.sin(theta);
+  var cosT = Math.cos(theta);
+  var sinSafe = Math.abs(sinT) < 1e-10 ? 1e-10 : sinT;
+  var elem = Math.abs((Math.cos(kL * cosT) - Math.cos(kL)) / sinSafe);
+  var azim = Math.sqrt(0.55 * Math.sin(phi) * Math.sin(phi) + 0.45);
+  var af = 2 * Math.abs(Math.sin(k * h * Math.sin(elev)));
+  var r = elem * azim * af;
+  return Math.min(r / 3.5, 1.2);
+}
+
+function pattern40(theta, phi) {
+  var elev = Math.PI / 2 - theta;
+  if (elev < 0) return 0;
+  var k = 2 * Math.PI / 41.9;
+  var h = 12;
+  var halfLen = 10.0;
+  var kL = k * halfLen;
+  var sinT = Math.sin(theta);
+  var cosT = Math.cos(theta);
+  var sinSafe = Math.abs(sinT) < 1e-10 ? 1e-10 : sinT;
+  var elem = Math.abs((Math.cos(kL * cosT) - Math.cos(kL)) / sinSafe);
+  var azim = Math.sqrt(0.5 * Math.sin(phi) * Math.sin(phi) + 0.5);
+  var af = 2 * Math.abs(Math.sin(k * h * Math.sin(elev)));
+  var r = elem * azim * af;
+  return Math.min(r / 4.0, 1.2);
+}
+
+render3dPattern('pat3d80', pattern80, {
+  meridianColor: '#2E86C1', parallelColor: '#1A5276'
+});
+render3dPattern('pat3d40', pattern40, {
+  meridianColor: '#D4A017', parallelColor: '#7D6608'
+});
+</script>
+</body>
+</html>

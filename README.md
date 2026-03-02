@@ -29,6 +29,7 @@ Full-size inverted-V fan dipole optimised for maximum NVIS efficiency. 12 m apex
 | [`3-7MHz-Efficient/3-7Mhz-Efficient.md`](3-7MHz-Efficient/3-7Mhz-Efficient.md) | Full design documentation |
 | [`3-7MHz-Efficient/Dualband_Efficency.png`](3-7MHz-Efficient/Dualband_Efficency.png) | 24x36" technical poster (200 DPI) |
 | [`3-7MHz-Efficient/Dualband_Efficency.pdf`](3-7MHz-Efficient/Dualband_Efficency.pdf) | A4 PDF datasheet |
+| [`3-7MHz-Efficient/Dualband_Efficency.html`](3-7MHz-Efficient/Dualband_Efficency.html) | Interactive HTML webpage ([view live](https://asteriskman2020.github.io/NVIS-Antennas/3-7MHz-Efficient/Dualband_Efficency.html)) |
 
 ---
 
@@ -41,6 +42,7 @@ Compact inverted-V fan dipole with center-loading coils for 50% size reduction. 
 | [`Small-Size/3-7Mhz-SmallSize.md`](Small-Size/3-7Mhz-SmallSize.md) | Full design documentation |
 | [`Small-Size/Dualband_SmallSize.png`](Small-Size/Dualband_SmallSize.png) | 24x36" technical poster (200 DPI) |
 | [`Small-Size/Dualband_SmallSize.pdf`](Small-Size/Dualband_SmallSize.pdf) | A4 PDF datasheet |
+| [`Small-Size/Dualband_SmallSize.html`](Small-Size/Dualband_SmallSize.html) | Interactive HTML webpage ([view live](https://asteriskman2020.github.io/NVIS-Antennas/Small-Size/Dualband_SmallSize.html)) |
 
 ---
 
@@ -75,6 +77,8 @@ End-Fed Half-Wave antenna covering three bands from a single 39.4 m wire using n
 HTML design pages with SVG diagrams, 3D radiation patterns, and full technical data can be viewed at:
 
 - [Balanced Magnetic Loop](https://asteriskman2020.github.io/NVIS-Antennas/3-7MHz/Dualband_Balanced.html)
+- [Efficiency-Optimised Fan Dipole](https://asteriskman2020.github.io/NVIS-Antennas/3-7MHz-Efficient/Dualband_Efficency.html)
+- [Small-Size Center-Loaded Fan Dipole](https://asteriskman2020.github.io/NVIS-Antennas/Small-Size/Dualband_SmallSize.html)
 - [Tri-Band EFHW](https://asteriskman2020.github.io/NVIS-Antennas/EFHW-Triband/Triband_EFHW.html)
 
 ---
